@@ -1,0 +1,31 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title">
+  <title>Red Cell Advisory shield logo</title>
+
+  <!-- Градиентный фон щита -->
+  <defs>
+    <linearGradient id="shieldGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff2237"></stop>
+      <stop offset="100%" stop-color="#b4001f"></stop>
+    </linearGradient>
+
+    <!-- Мягкое внешнее свечение -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="coloredBlur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Основной контур щита -->
+  <path d="M128 12 L236 46 V152
+       C236 188 200 224 128 252
+       C56 224 20 188 20 152 V46 Z" fill="url(#shieldGradient)" filter="url(#glow)"></path>
+
+  <!-- Текст RCA -->
+  <text x="50%" y="60%" text-anchor="middle" font-family="Inter,Helvetica,Arial,sans-serif" font-size="96" font-weight="700" fill="#ffffff" letter-spacing="2" dominant-baseline="middle">
+    RCA
+  </text>
+</svg>

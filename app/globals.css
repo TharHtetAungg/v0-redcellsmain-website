@@ -1,0 +1,455 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 90%;
+    --card: 215 28% 17%;
+    --card-foreground: 210 40% 90%;
+    --popover: 215 28% 17%;
+    --popover-foreground: 210 40% 90%;
+    --primary: 348 91% 47%;
+    --primary-600: 348 91% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 210 40% 90%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 220 9% 64%;
+    --accent: 215 28% 17%;
+    --accent-foreground: 210 40% 90%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 25% 27%;
+    --input: 215 25% 27%;
+    --ring: 348 91% 47%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    /* Added overflow-anchor prevention to prevent scroll jumping when global network background loads */
+    overflow-anchor: none;
+  }
+
+  /* Added overflow-anchor prevention to main containers */
+  main {
+    overflow-anchor: none;
+  }
+}
+
+@layer components {
+  .section {
+    @apply py-20 sm:py-28;
+  }
+
+  .container-max {
+    @apply mx-auto max-w-7xl px-4 sm:px-6;
+  }
+
+  /* Fixed card surface with proper spacing between classes */
+  .card-surface {
+    @apply rounded-2xl border border-border/60 backdrop-blur shadow-[0_8px_30px_rgba(0,0,0,.25)];
+    background: rgba(21, 26, 34, 0.82);
+  }
+
+  .card-surface:hover {
+    @apply border-primary/40 shadow-[0_12px_40px_rgba(226,30,44,.12)];
+  }
+
+  .icon-badge {
+    @apply bg-primary/10 border border-primary/20 text-primary rounded-full;
+  }
+
+  .section-divider {
+    @apply bg-gradient-to-r from-transparent via-white/10 to-transparent h-px w-full max-w-4xl mx-auto mt-6;
+  }
+}
+
+.scan-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-lines::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 1px 3px;
+  animation: scan 10s linear infinite;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20px);
+  }
+}
+
+@layer utilities {
+  @keyframes pan {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 1000px 600px;
+    }
+  }
+  @keyframes fade-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Added fade-up animation for content reveals */
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Added pulse animation for form elements */
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(226, 30, 44, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(226, 30, 44, 0);
+    }
+  }
+
+  /* Added slide animations for stepper transitions */
+  @keyframes slide-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-out-left {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+  }
+
+  /* Added scale animation for interactive elements */
+  @keyframes scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Added animation classes */
+  .animate-fade-down {
+    animation: fade-down 0.45s ease-out;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.45s ease-out;
+  }
+
+  /* Added new animation utility classes */
+  .animate-pulse-glow {
+    animation: pulse-glow 2s infinite;
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+  }
+
+  .animate-slide-out-left {
+    animation: slide-out-left 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out;
+  }
+
+  /* Added radial gradient utility */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  .backdrop-blur-card {
+    background: rgba(21, 26, 34, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Added form-specific styling utilities */
+  .form-field-focus {
+    @apply ring-2 ring-[#E21E2C]/40 border-[#E21E2C]/60;
+  }
+
+  .form-field-error {
+    @apply ring-2 ring-red-500/40 border-red-500/60;
+  }
+
+  .stepper-step-active {
+    @apply bg-[#E21E2C] text-white ring-2 ring-[#E21E2C]/40;
+  }
+
+  .stepper-step-completed {
+    @apply bg-[#E21E2C] text-white ring-2 ring-[#E21E2C]/60;
+  }
+
+  .stepper-step-inactive {
+    @apply bg-zinc-700 text-zinc-400;
+  }
+
+  /* Added tier card selection states */
+  .tier-card-selected {
+    @apply ring-2 ring-[#E21E2C]/60 border-[#E21E2C]/40 bg-zinc-900/80 shadow-lg shadow-[#E21E2C]/10;
+  }
+
+  .tier-card-hover {
+    @apply border-zinc-700 bg-zinc-900/80 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* Added upload zone states */
+  .upload-zone-active {
+    @apply border-[#E21E2C] bg-[#E21E2C]/5;
+  }
+
+  .upload-zone-idle {
+    @apply border-zinc-700 hover:border-zinc-600 bg-zinc-800/30;
+  }
+
+  /* Added responsive text utilities for forms */
+  .text-form-label {
+    @apply text-sm font-medium text-white;
+  }
+
+  .text-form-description {
+    @apply text-xs text-zinc-400;
+  }
+
+  .text-form-error {
+    @apply text-sm font-medium text-red-400;
+  }
+
+  /* Added focus-visible utilities for better accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .focus-ring-inset {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/60;
+  }
+
+  .text-h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    @apply font-semibold tracking-tight;
+  }
+
+  .text-h2 {
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    @apply font-semibold tracking-tight;
+  }
+
+  .text-body {
+    @apply text-base leading-relaxed;
+  }
+
+  .text-body-small {
+    @apply text-sm leading-relaxed;
+  }
+}
+
+/* Added print styles for clean PDF export */
+@media print {
+  /* Hide non-essential elements for print */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure proper page layout */
+  @page {
+    margin: 1in;
+    size: A4;
+  }
+
+  /* Reset background colors for print */
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Ensure proper text contrast */
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black !important;
+    background: white !important;
+  }
+
+  /* Style headings for print */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: black !important;
+    page-break-after: avoid;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  h1 {
+    font-size: 24pt;
+    border-bottom: 2pt solid black;
+    padding-bottom: 0.5em;
+  }
+
+  h2 {
+    font-size: 18pt;
+    margin-top: 2em;
+  }
+
+  h3 {
+    font-size: 14pt;
+  }
+
+  /* Avoid page breaks inside elements */
+  p,
+  li,
+  blockquote {
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Style lists for print */
+  ul,
+  ol {
+    margin-left: 1em;
+  }
+
+  /* Ensure links are visible in print */
+  a {
+    color: black !important;
+    text-decoration: underline;
+  }
+
+  /* Add URL after links in print */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666;
+  }
+
+  /* Don't show URLs for internal links */
+  a[href^="#"]:after,
+  a[href^="/"]:after {
+    content: "";
+  }
+
+  /* Style the main content area */
+  main {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  /* Hide sidebar in print */
+  aside {
+    display: none !important;
+  }
+
+  /* Ensure proper spacing for sections */
+  section {
+    margin-bottom: 2em;
+    page-break-inside: avoid;
+  }
+
+  /* Style the article header */
+  article header {
+    border-bottom: 1pt solid black;
+    padding-bottom: 1em;
+    margin-bottom: 2em;
+  }
+}
+
+/* Added smooth scroll behavior for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respect prefers-reduced-motion by disabling smooth scroll when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Also disable all animations for users who prefer reduced motion */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Added skip link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: theme("colors.primary.DEFAULT");
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
