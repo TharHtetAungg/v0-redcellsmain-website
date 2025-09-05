@@ -56,7 +56,17 @@ export function LegalLayout({ children, title, lastUpdated, sections }: LegalLay
               ? "Privacy Policy"
               : segment === "dpa-gdpr"
                 ? "Data Processing & GDPR"
-                : segment.charAt(0).toUpperCase() + segment.slice(1)
+                : segment === "cookies"
+                  ? "Cookie Policy"
+                  : segment === "aup"
+                    ? "Acceptable Use Policy"
+                    : segment === "anti-bribery"
+                      ? "Anti-Bribery Policy"
+                      : segment === "sanctions-aml"
+                        ? "Sanctions & AML"
+                        : segment === "accessibility"
+                          ? "Accessibility Statement"
+                          : segment.charAt(0).toUpperCase() + segment.slice(1)
       return { path, label }
     })
   }

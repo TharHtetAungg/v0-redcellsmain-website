@@ -11,6 +11,11 @@ const legalLinks = [
   { href: "/legal/terms", label: "Terms of Service" },
   { href: "/legal/privacy", label: "Privacy Policy" },
   { href: "/legal/dpa-gdpr", label: "Data Processing & GDPR" },
+  { href: "/legal/aup", label: "Acceptable Use Policy" },
+  { href: "/legal/anti-bribery", label: "Anti-Bribery Policy" },
+  { href: "/legal/sanctions-aml", label: "Sanctions & AML" },
+  { href: "/legal/cookies", label: "Cookie Policy" },
+  { href: "/legal/accessibility", label: "Accessibility" },
   { href: "/legal", label: "Legal" }, // Added Legal hub link at the end of the list
 ]
 
@@ -47,6 +52,12 @@ export default function Footer() {
               Cross-border fraud intelligence. <br />
               Red Cell Advisory — a unit of Burakorn Partners Holding
             </p>
+            <div className="mt-4 space-y-1 text-xs text-muted-foreground/80">
+              <p>Reg. No.: TH-123456789</p>
+              <p>VAT: TH-987654321</p>
+              <p>EIN: 12-3456789</p>
+              <p>DUNS: 123456789</p>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -80,13 +91,19 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-sm font-semibold text-foreground">Contact</h4>
-            <div className="mt-4 text-sm text-muted-foreground">
+            <div className="mt-4 space-y-3 text-sm text-muted-foreground">
               <a
                 className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 hover:border-primary/40 hover:bg-primary/5 hover:text-foreground transition-colors"
                 href="mailto:info@redcelladvisory.com"
               >
                 <Mail className="h-4 w-4" /> info@redcelladvisory.com
               </a>
+              <div className="text-xs text-muted-foreground/80 leading-relaxed">
+                <p className="font-medium text-muted-foreground">Bangkok Office:</p>
+                <p>30th Floor, Bhiraj Tower at EmQuartier</p>
+                <p>Sukhumvit Road, Khlong Tan Nuea</p>
+                <p>Watthana, Bangkok 10110</p>
+              </div>
             </div>
           </div>
         </div>

@@ -102,10 +102,10 @@ export function NewPricingSection() {
             >
               {tier.isPopular && (
                 <div className="absolute -top-3 left-4">
-                  <span className="relative rounded-full bg-[#e00c33]/20 px-3 py-1 text-xs text-[#e00c33]">
+                  <span className="relative rounded-full bg-[#e00c33] px-3 py-1 text-xs text-white font-medium">
                     Most Popular
                     <motion.div
-                      className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-[#e00c33] to-transparent"
+                      className="absolute bottom-0 left-0 h-[1px] bg-gradient-to-r from-white/50 to-transparent"
                       initial={{ width: 0 }}
                       animate={{ width: "100%" }}
                       transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}

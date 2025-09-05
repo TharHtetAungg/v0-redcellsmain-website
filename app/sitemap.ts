@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/legal/terms",
     "/legal/privacy",
     "/legal/dpa-gdpr",
+    "/legal/aup",
+    "/legal/anti-bribery",
+    "/legal/sanctions-aml",
+    "/legal/cookies",
+    "/legal/accessibility",
+    "/trust-center",
   ]
 
   const staticUrls = staticRoutes.map((route) => ({

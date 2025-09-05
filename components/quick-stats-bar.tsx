@@ -98,7 +98,7 @@ export function QuickStatsBar() {
                 delay: prefersReducedMotion ? 0 : index * 0.1,
               }}
             >
-              <div className="text-4xl font-extrabold bg-gradient-to-r from-[#e00c33] to-pink-500 bg-clip-text text-transparent mb-2">
+              <div className="text-4xl font-extrabold text-red-400 bg-gradient-to-r from-[#e00c33] to-pink-500 bg-clip-text [&:not(:has(*))]:text-transparent mb-2">
                 {stat.number.includes("$") ? (
                   <CountUpNumber
                     value={stat.value}

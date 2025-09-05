@@ -8,6 +8,7 @@ import Footer from "@/components/layout/footer"
 import { Toaster } from "@/components/ui/toaster"
 import { HomeBackgroundWrapper } from "@/components/home-background-wrapper"
 import { ScrollToTopOnRouteChange } from "@/components/scroll-to-top-on-route-change"
+import { CookieConsent } from "@/components/cookie-consent"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -16,7 +17,7 @@ const siteConfig = {
   description:
     "Paid AI + human intelligence reports for import/export pre-payments. We hunt cross-border fraud before it hits your balance sheet.",
   url: "https://www.redcelladvisory.com",
-  ogImage: "/og.png", // Using a relative path is more robust with metadataBase
+  ogImage: "/og.jpg", // Using a relative path is more robust with metadataBase
   author: "RedCellAdvisory",
 }
 
@@ -31,8 +32,35 @@ export const metadata: Metadata = {
     template: `%s | RedCellAdvisory`,
   },
   description: siteConfig.description,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: "RedCellAdvisory",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "RedCellAdvisory - Cross-Border Fraud Intelligence",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: "@redcelladvisory",
+  },
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.jpg", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.jpg",
   },
   robots: {
     index: true,
@@ -53,7 +81,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "RedCellAdvisory",
   url: siteConfig.url,
-  logo: `${siteConfig.url}/favicon.png`,
+  logo: `${siteConfig.url}/favicon.jpg`,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
@@ -81,6 +109,7 @@ export default function RootLayout({
         <main className="flex-grow">{children}</main>
         <Footer />
         <Toaster />
+        <CookieConsent />
       </body>
     </html>
   )
