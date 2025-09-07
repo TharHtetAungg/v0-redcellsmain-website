@@ -53,10 +53,9 @@ export default function Footer() {
               Red Cell Advisory — a unit of Burakorn Partners Holding
             </p>
             <div className="mt-4 space-y-1 text-xs text-muted-foreground/80">
-              <p>Reg. No.: TH-123456789</p>
-              <p>VAT: TH-987654321</p>
-              <p>EIN: 12-3456789</p>
-              <p>DUNS: 123456789</p>
+              <p>Reg. No.: 0105565005581</p>
+              <p>VAT: 0105565005581</p>
+              <p>EIN: 0105565005581</p>
             </div>
           </div>
 
