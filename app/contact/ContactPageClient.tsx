@@ -1,7 +1,8 @@
 "use client"
 
-import { useActionState } from "react"
-import { useFormStatus } from "react-dom"
+import type React from "react"
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -10,40 +11,44 @@ import { useToast } from "@/components/ui/use-toast"
 import { Badge } from "@/components/ui/badge"
 import { Mail, Send, ShieldCheck, Phone, Clock, Key, ExternalLink, MapPin } from "lucide-react"
 import Link from "next/link"
-import { submitContactAction, type ContactFormState } from "./actions"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import GoogleMap from "@/components/google-map"
 
-function ContactSubmitButton() {
-  const { pending } = useFormStatus()
+function ContactSubmitButton({ isSubmitting }: { isSubmitting: boolean }) {
   return (
-    <Button type="submit" size="lg" disabled={pending} className="w-full">
-      {pending ? "Sending..." : "Send Message"}
+    <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
+      {isSubmitting ? "Sending..." : "Send Message"}
     </Button>
   )
 }
 
 export default function ContactPageClient() {
   const { toast } = useToast()
-  const initialState: ContactFormState = { message: "", success: false }
-  const [state, formAction] = useActionState(submitContactAction, initialState)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
 
-  useEffect(() => {
-    if (state.success) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      // Simulate form submission
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       formRef.current?.reset()
       toast({
         title: "Message Sent",
-        description: state.message,
+        description: "Thank you for your message. We'll get back to you soon.",
       })
-    } else if (state.message && state.errors) {
+    } catch (error) {
       toast({
         title: "Error",
-        description: state.message,
+        description: "Failed to send message. Please try again.",
         variant: "destructive",
       })
+    } finally {
+      setIsSubmitting(false)
     }
-  }, [state, toast])
+  }
 
   return (
     <div className="bg-background text-foreground">
@@ -207,21 +212,18 @@ export default function ContactPageClient() {
 
             {/* Right Side: Contact Form */}
             <div>
-              <form ref={formRef} action={formAction} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <Label htmlFor="name">Full Name</Label>
                   <Input id="name" name="name" placeholder="John Doe" className="mt-1" />
-                  {state.errors?.name && <p className="mt-1 text-sm text-destructive">{state.errors.name[0]}</p>}
                 </div>
                 <div>
                   <Label htmlFor="email">Email Address</Label>
                   <Input id="email" name="email" placeholder="you@company.com" className="mt-1" />
-                  {state.errors?.email && <p className="mt-1 text-sm text-destructive">{state.errors.email[0]}</p>}
                 </div>
                 <div>
                   <Label htmlFor="subject">Subject</Label>
                   <Input id="subject" name="subject" placeholder="Inquiry about Tactical Probes" className="mt-1" />
-                  {state.errors?.subject && <p className="mt-1 text-sm text-destructive">{state.errors.subject[0]}</p>}
                 </div>
                 <div>
                   <Label htmlFor="message">Your Message</Label>
@@ -232,9 +234,8 @@ export default function ContactPageClient() {
                     rows={6}
                     className="mt-1"
                   />
-                  {state.errors?.message && <p className="mt-1 text-sm text-destructive">{state.errors.message[0]}</p>}
                 </div>
-                <ContactSubmitButton />
+                <ContactSubmitButton isSubmitting={isSubmitting} />
               </form>
             </div>
           </div>

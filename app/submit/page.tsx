@@ -1,49 +1,56 @@
 "use client"
 
-import { useActionState } from "react"
-import { useFormStatus } from "react-dom"
+import type React from "react"
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { UploadCloud, ShieldCheck } from "lucide-react"
-import { submitCaseAction, type FormState } from "./actions"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { useToast } from "@/components/ui/use-toast"
 
-function SubmitButton() {
-  const { pending } = useFormStatus()
+function SubmitButton({ isSubmitting }: { isSubmitting: boolean }) {
   return (
-    <Button type="submit" size="lg" disabled={pending}>
-      {pending ? "Submitting..." : "Pay with Stripe"}
+    <Button type="submit" size="lg" disabled={isSubmitting}>
+      {isSubmitting ? "Submitting..." : "Pay with Stripe"}
     </Button>
   )
 }
 
 export default function SubmitPage() {
-  const initialState: FormState = { message: "", success: false, errors: undefined }
-  const [state, formAction] = useActionState(submitCaseAction, initialState)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const { toast } = useToast()
 
-  useEffect(() => {
-    if (state.success) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+
+    try {
+      // Simulate form submission
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      setIsSuccess(true)
       formRef.current?.reset()
       toast({
         title: "Case Submitted Successfully",
         description: "Report in progress. You will receive an ETA via email shortly.",
       })
-    } else if (state.message && state.errors) {
+    } catch (error) {
       toast({
         title: "Error Submitting Case",
-        description: state.message,
+        description: "Please try again later.",
         variant: "destructive",
       })
+    } finally {
+      setIsSubmitting(false)
     }
-  }, [state, toast])
+  }
 
-  if (state.success) {
+  if (isSuccess) {
     return (
       <div className="container flex min-h-[60vh] flex-col items-center justify-center text-center">
         <ShieldCheck className="h-16 w-16 text-green-500" />
@@ -67,49 +74,38 @@ export default function SubmitPage() {
             confidential.
           </p>
         </div>
-        <form ref={formRef} action={formAction} className="mt-12 space-y-8">
+        <form ref={formRef} onSubmit={handleSubmit} className="mt-12 space-y-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div>
               <Label htmlFor="name">Full Name</Label>
               <Input id="name" name="name" placeholder="John Doe" required />
-              {state.errors?.name && <p className="mt-1 text-sm text-destructive">{state.errors.name[0]}</p>}
             </div>
             <div>
               <Label htmlFor="email">Email Address</Label>
               <Input id="email" name="email" type="email" placeholder="john.doe@company.com" required />
-              {state.errors?.email && <p className="mt-1 text-sm text-destructive">{state.errors.email[0]}</p>}
             </div>
             <div>
               <Label htmlFor="phone">Phone (Intl)</Label>
               <Input id="phone" name="phone" placeholder="+1 555 123 4567" required />
-              {state.errors?.phone && <p className="mt-1 text-sm text-destructive">{state.errors.phone[0]}</p>}
             </div>
             <div>
               <Label htmlFor="company">Your Company</Label>
               <Input id="company" name="company" placeholder="Acme Inc." required />
-              {state.errors?.company && <p className="mt-1 text-sm text-destructive">{state.errors.company[0]}</p>}
             </div>
           </div>
           <div className="space-y-8 border-t border-border pt-8">
             <div>
               <Label htmlFor="counterparty">Counterparty Name</Label>
               <Input id="counterparty" name="counterparty" placeholder="Global Exports Ltd." required />
-              {state.errors?.counterparty && (
-                <p className="mt-1 text-sm text-destructive">{state.errors.counterparty[0]}</p>
-              )}
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               <div>
                 <Label htmlFor="invoiceValue">Invoice Value (USD)</Label>
                 <Input id="invoiceValue" name="invoiceValue" type="number" placeholder="15000" required />
-                {state.errors?.invoiceValue && (
-                  <p className="mt-1 text-sm text-destructive">{state.errors.invoiceValue[0]}</p>
-                )}
               </div>
               <div>
                 <Label htmlFor="country">Country of Counterparty</Label>
                 <Input id="country" name="country" placeholder="e.g., China" required />
-                {state.errors?.country && <p className="mt-1 text-sm text-destructive">{state.errors.country[0]}</p>}
               </div>
             </div>
             <div>
@@ -121,9 +117,6 @@ export default function SubmitPage() {
                 rows={5}
                 required
               />
-              {state.errors?.description && (
-                <p className="mt-1 text-sm text-destructive">{state.errors.description[0]}</p>
-              )}
             </div>
           </div>
           <div className="space-y-8 border-t border-border pt-8">
@@ -162,7 +155,6 @@ export default function SubmitPage() {
                   </a>
                   .
                 </label>
-                {state.errors?.terms && <p className="text-sm text-destructive">{state.errors.terms[0]}</p>}
               </div>
             </div>
           </div>
@@ -172,7 +164,7 @@ export default function SubmitPage() {
               Select your preferred payment method to initiate the investigation.
             </p>
             <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <SubmitButton />
+              <SubmitButton isSubmitting={isSubmitting} />
               <Button type="button" variant="outline" size="lg" disabled>
                 Pay with PayPal
               </Button>
